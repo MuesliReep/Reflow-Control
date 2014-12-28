@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    void setupPlot();
 };
 
 #endif // MAINWINDOW_H
