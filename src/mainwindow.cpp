@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "profile.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -8,7 +7,19 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    temperaturePlot = ui->tempPlot;
+
+    profile = Profile();
+
     setupPlot();
+
+    //Connect signals
+    connect(ui->spinBoxPreHeatTemp,SIGNAL(valueChanged(int)),this,SLOT(slotUpdatePreHeatTemp(int)));
+    connect(ui->spinBoxPreHeatTime,SIGNAL(valueChanged(int)),this,SLOT(slotUpdatePreHeatTime(int)));
+    connect(ui->spinBoxSoakTemp,SIGNAL(valueChanged(int)),this,SLOT(slotUpdateSoakTemp(int)));
+    connect(ui->spinBoxSoakTime,SIGNAL(valueChanged(int)),this,SLOT(slotUpdateSoakTime(int)));
+    connect(ui->spinBoxReflowTemp,SIGNAL(valueChanged(int)),this,SLOT(slotUpdateReflowTemp(int)));
+    connect(ui->spinBoxReflowTime,SIGNAL(valueChanged(int)),this,SLOT(slotUpdateReflowTime(int)));
 }
 
 MainWindow::~MainWindow()
@@ -27,17 +38,35 @@ void MainWindow::setupPlot() {
   // }
 
 
-  Profile profile = Profile();
+  //Set profile parameters
+  profile.setPreHeatTime(ui->spinBoxPreHeatTime->value());
+  profile.setPreHeatTemp(ui->spinBoxPreHeatTemp->value());
+  profile.setSoakTime(ui->spinBoxSoakTime->value());
+  profile.setSoakTemp(ui->spinBoxSoakTemp->value());
+  profile.setReflowTime(ui->spinBoxReflowTime->value());
+  profile.setReflowTemp(ui->spinBoxReflowTemp->value());
 
+  temperaturePlot->addGraph();
+  temperaturePlot->graph(0)->setData(profile.getX(),profile.getY());
+  // temperaturePlot->graph(0)->setData(x, y);
 
-  ui->tempPlot->addGraph();
-  ui->tempPlot->graph(0)->setData(profile.getX(),profile.getY());
-  // ui->tempPlot->graph(0)->setData(x, y);
+  temperaturePlot->xAxis->setLabel("Time (sec)");
+  temperaturePlot->yAxis->setLabel("Temparature (C)");
 
-  ui->tempPlot->xAxis->setLabel("Time (s)");
-  ui->tempPlot->yAxis->setLabel("Temparature (C)");
+  temperaturePlot->xAxis->setRange(0, 300);
+  temperaturePlot->yAxis->setRange(0, 300);
 
-  ui->tempPlot->xAxis->setRange(0, 300);
-  ui->tempPlot->yAxis->setRange(0, 300);
-  ui->tempPlot->replot();
+  QCPItemBracket *bracket = new QCPItemBracket(temperaturePlot);
+  temperaturePlot->addItem(bracket);
+  bracket->left->setCoords(90, 217);
+  bracket->right->setCoords(180, 217);
+  bracket->setLength(13);
+
+  temperaturePlot->replot();
+}
+
+void MainWindow::updateProfileParameters()
+{
+  temperaturePlot->graph(0)->setData(profile.getX(),profile.getY());
+  temperaturePlot->replot();
 }
