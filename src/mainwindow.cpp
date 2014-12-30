@@ -37,20 +37,6 @@ void MainWindow::setupPlot() {
   //   y[i] = x[i]*x[i]; // let's plot a quadratic function
   // }
 
-
-  // //Set profile parameters
-  profile.setPreHeatTime(ui->spinBoxPreHeatTime->value());
-  profile.setPreHeatTemp(ui->spinBoxPreHeatTemp->value());
-  profile.setSoakTime(ui->spinBoxSoakTime->value());
-  profile.setSoakTemp(ui->spinBoxSoakTemp->value());
-  profile.setReflowTime(ui->spinBoxReflowTime->value());
-  profile.setReflowTemp(ui->spinBoxReflowTemp->value());
-
-  updateProfileParameters();
-
-  //Set profile parameters
-  // profile.updateParameters((double)ui->spinBoxPreHeatTime->value(),(double)ui->spinBoxPreHeatTemp->value(),(double)ui->spinBoxSoakTime->value(),(double)ui->spinBoxSoakTemp->value(),(double)ui->spinBoxReflowTime->value(),(double)ui->spinBoxReflowTemp->value());
-
   temperaturePlot->addGraph();
   temperaturePlot->graph(0)->setData(profile.getX(),profile.getY());
   // temperaturePlot->graph(0)->setData(x, y);
@@ -68,10 +54,16 @@ void MainWindow::setupPlot() {
   bracket->setLength(13);
 
   temperaturePlot->replot();
+
+  //Set profile parameters
+  profile.updateParameters((double)ui->spinBoxPreHeatTime->value(),(double)ui->spinBoxPreHeatTemp->value(),(double)ui->spinBoxSoakTime->value(),(double)ui->spinBoxSoakTemp->value(),(double)ui->spinBoxReflowTime->value(),(double)ui->spinBoxReflowTemp->value());
+
+  updateProfileParameters();
 }
 
 void MainWindow::updateProfileParameters()
 {
+  profile.updateParameters();
   temperaturePlot->graph(0)->setData(profile.getX(),profile.getY());
   temperaturePlot->replot();
 }
