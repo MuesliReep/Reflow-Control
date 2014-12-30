@@ -38,13 +38,18 @@ void MainWindow::setupPlot() {
   // }
 
 
-  //Set profile parameters
+  // //Set profile parameters
   profile.setPreHeatTime(ui->spinBoxPreHeatTime->value());
   profile.setPreHeatTemp(ui->spinBoxPreHeatTemp->value());
   profile.setSoakTime(ui->spinBoxSoakTime->value());
   profile.setSoakTemp(ui->spinBoxSoakTemp->value());
   profile.setReflowTime(ui->spinBoxReflowTime->value());
   profile.setReflowTemp(ui->spinBoxReflowTemp->value());
+
+  updateProfileParameters();
+
+  //Set profile parameters
+  // profile.updateParameters((double)ui->spinBoxPreHeatTime->value(),(double)ui->spinBoxPreHeatTemp->value(),(double)ui->spinBoxSoakTime->value(),(double)ui->spinBoxSoakTemp->value(),(double)ui->spinBoxReflowTime->value(),(double)ui->spinBoxReflowTemp->value());
 
   temperaturePlot->addGraph();
   temperaturePlot->graph(0)->setData(profile.getX(),profile.getY());

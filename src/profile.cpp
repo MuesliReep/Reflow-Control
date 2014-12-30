@@ -19,20 +19,39 @@ void Profile::createProfile() {
 
   }
 
-  // pre heat
-  for(int i=0; i<preHeatTime;i++) {
-    y[i] = (double)i * ((preHeatTemp-startTemp) / preHeatTime) + startTemp;
+  //TODO: Preheat max = +2.5C/sec cooldown max = -5C/sec
+
+
+  // TODO: new ramp for preheat
+  // set target temp
+  // then set ramp
+  // remaining should be curved off
+  preHeatTarget = 160.0;
+  preHeatRamp   = 1.78;
+  preHeatCurve  = 5;
+
+  // new preheat curve
+  for(int i=1; i<preHeatTime;i++) {
+    y[i]= pow((double)i,1.0/2.0) + startTemp;
   }
+
+  //Set starting temperature
+  y[0] = startTemp;
+
+  // pre heat
+  // for(int i=1; i<preHeatTime;i++) {
+  //   y[i] = (double)i * ((preHeatTemp-startTemp) / preHeatTime) + startTemp;
+  // }
   // soak
-  for(int i=0;i<soakTime;i++) {
+  for(int i=1;i<soakTime;i++) {
     y[i+preHeatTime] = preHeatTemp + (double)i * ((soakTemp-preHeatTemp) / soakTime);
   }
   // reflow
-  for(int i=0;i<reflowTime;i++) {
+  for(int i=1;i<reflowTime;i++) {
     y[i+preHeatTime+soakTime] = soakTemp + (double)i * ((reflowTemp-soakTemp) / reflowTime);
   }
   // cool down
-  for(int i=0;i<cooldownTime;i++) {
+  for(int i=1;i<cooldownTime;i++) {
     //  y[i+preHeatTime+soakTime+reflowTime] = reflowTemp - (double)i * ((reflowTemp-cooldownTemp) / cooldownTime);
   }
 }
@@ -51,11 +70,29 @@ void Profile::setPreHeatTemp(double PreHeatTemp) { preHeatTemp = PreHeatTemp; up
 void Profile::setSoakTemp(double SoakTemp) { soakTemp = SoakTemp; updateParameters(); }
 void Profile::setReflowTemp(double ReflowTemp) { reflowTemp = ReflowTemp; updateParameters(); }
 
-void Profile::updateParameters() {
+void Profile::setPreHeatTarget(double PreHeatTarget) { preHeatTarget = PreHeatTarget; updateParameters(); }
+void Profile::setPreHeatRamp(double PreHeatRamp) { preHeatRamp = PreHeatRamp; updateParameters(); }
 
-  cooldownTime  = 300 - preHeatTime + soakTime + reflowTime;
+void Profile::updateParameters(double PreHeatTime, double PreHeatTemp, double SoakTime,double SoakTemp, double ReflowTime, double ReflowTemp) {
 
-  startTemp     = 21;
+  preHeatTime = PreHeatTime;
+  preHeatTemp = PreHeatTemp;
+  soakTime    = SoakTime;
+  soakTemp    = SoakTemp;
+  reflowTime  = ReflowTime;
+  reflowTemp  = ReflowTemp;
+
+  // preHeatTarget = PreHeatTarget;
+  // preHeatRamp   = PreHeatRamp;
+
+  updateParameters();
+}
+
+void Profile::updateParameters( ) {
+
+  cooldownTime  = 300 - (preHeatTime + soakTime + reflowTime); // TODO: 300 should be settable
+
+  startTemp     = 21; // TODO: startTemp should be settable
   cooldownTemp  = startTemp;
 
   createProfile();

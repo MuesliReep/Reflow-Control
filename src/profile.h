@@ -2,6 +2,7 @@
 #define PROFILE_H
 
 #include <stdio.h>
+#include <math.h>
 
 #include <QVector>
 
@@ -17,6 +18,7 @@ public:
   QVector<double> getX();
   QVector<double> getY();
   void updateParameters();
+  void updateParameters(double PreHeatTime, double PreHeatTemp, double SoakTime,double SoakTemp, double ReflowTime, double ReflowTemp);
 
   void setPreHeatTime(double PreHeatTime);
   void setSoakTime(double SoakTime);
@@ -27,6 +29,9 @@ public:
   void setSoakTemp(double soakTemp);
   void setReflowTemp(double ReflowTemp);
 
+
+  void setPreHeatTarget(double PreHeatTarget);
+  void setPreHeatRamp(double PreHeatRamp);
 
 private:
   QVector<double> x;
@@ -41,6 +46,10 @@ private:
   double soakTemp;
   double reflowTemp;
   double cooldownTemp;
+
+  double preHeatTarget;
+  double preHeatRamp;
+  double preHeatCurve;
 
   void createProfile();
 
