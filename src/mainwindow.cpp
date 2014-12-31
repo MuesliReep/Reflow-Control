@@ -71,5 +71,17 @@ void MainWindow::updateProfileParameters()
 {
   profile.updateParameters();
   temperaturePlot->graph(0)->setData(profile.getX(),profile.getY());
+
+  // Add arrow
+  QCPItemCurve *arrow = new QCPItemCurve(customPlot);
+  temperaturePlot->addItem(arrow);
+  arrow->start->setCoords(1, -1.1);
+  arrow->startDir->setCoords(-1, -1.3);
+  arrow->endDir->setCoords(-5, -0.3);
+  arrow->end->setCoords(-10, -0.2);
+  arrow->setHead(QCPLineEnding::esSpikeArrow);
+
+  // Add arrow label
+
   temperaturePlot->replot();
 }

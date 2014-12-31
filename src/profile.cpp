@@ -62,6 +62,19 @@ void Profile::createProfile() {
   }
 }
 
+//Find the max ramp speed in degrees per second
+double Profile::findMaxRamp(int start, int end) {
+
+  // TODO: negative ramp
+
+  double maxValue = 0;
+
+  for(int i=start+1;i<=end;i++) {
+    if(y[i]-y[i-1] > maxValue)
+      maxValue = y[i]-y[i-1];
+  }
+}
+
 // Getters & Setters
 
 QVector<double> Profile::getX() { return x; }

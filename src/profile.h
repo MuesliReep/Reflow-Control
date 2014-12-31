@@ -37,6 +37,8 @@ public:
   void setBase(double Base);
   void setTau(double Tau);
 
+  double Profile::findMaxRamp(int start, int end);
+
 private:
 
 
