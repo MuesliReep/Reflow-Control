@@ -35,6 +35,9 @@ private slots:
     void slotUpdateReflowTemp(int value) { profile.setReflowTemp((double)value); updateProfileParameters();}
     void slotUpdateReflowTime(int value) { profile.setReflowTime((double)value); updateProfileParameters();}
 
+    void slotUpdateBase(double value) { profile.setBase(value); updateProfileParameters();}
+    void slotUpdateTau(double value) { profile.setTau(value); updateProfileParameters();}
+
     // void slotUpdatePreHeatTime(int value) { profile.setPreHeatTime((double)value); }
     // void slotUpdatePreHeatTemp(int value) { profile.setPreHeatTemp((double)value); }
     // void slotUpdateSoakTime(int value) { profile.setSoakTime((double)value); }

@@ -194,6 +194,56 @@
                 </item>
               </layout>
             </item>
+            <item>
+              <layout class="QHBoxLayout" name="horizontalLayout4">
+                <item>
+                  <widget class="QLabel" name="labelBase">
+                    <property name="text">
+                      <string>Base</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QDoubleSpinBox" name="spinBoxBase">
+                    <property name="accelerated">
+                      <bool>true</bool>
+                    </property>
+                    <property name="maximum">
+                      <double>999</double>
+                    </property>
+                    <property name="value">
+                      <double>21</double>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="labelTau">
+                    <property name="text">
+                      <string>tau</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QDoubleSpinBox" name="spinBoxTau">
+                    <property name="accelerated">
+                      <bool>true</bool>
+                    </property>
+                    <property name="maximum">
+                      <double>999</double>
+                    </property>
+                    <property name="value">
+                      <double>7.77</double>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </item>
           </layout>
         </item>
       </layout>

@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <cmath>
 
 #include <QVector>
 
@@ -33,7 +34,13 @@ public:
   void setPreHeatTarget(double PreHeatTarget);
   void setPreHeatRamp(double PreHeatRamp);
 
+  void setBase(double Base);
+  void setTau(double Tau);
+
 private:
+
+
+
   QVector<double> x;
   QVector<double> y;
   double preHeatTime;
@@ -50,6 +57,9 @@ private:
   double preHeatTarget;
   double preHeatRamp;
   double preHeatCurve;
+
+  double base;
+  double tau;
 
   void createProfile();
 

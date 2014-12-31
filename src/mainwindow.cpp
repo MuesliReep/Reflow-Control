@@ -20,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->spinBoxSoakTime,SIGNAL(valueChanged(int)),this,SLOT(slotUpdateSoakTime(int)));
     connect(ui->spinBoxReflowTemp,SIGNAL(valueChanged(int)),this,SLOT(slotUpdateReflowTemp(int)));
     connect(ui->spinBoxReflowTime,SIGNAL(valueChanged(int)),this,SLOT(slotUpdateReflowTime(int)));
+
+    connect(ui->spinBoxBase,SIGNAL(valueChanged(double)),this,SLOT(slotUpdateBase(double)));
+    connect(ui->spinBoxTau,SIGNAL(valueChanged(double)),this,SLOT(slotUpdateTau(double)));
 }
 
 MainWindow::~MainWindow()
@@ -57,6 +60,9 @@ void MainWindow::setupPlot() {
 
   //Set profile parameters
   profile.updateParameters((double)ui->spinBoxPreHeatTime->value(),(double)ui->spinBoxPreHeatTemp->value(),(double)ui->spinBoxSoakTime->value(),(double)ui->spinBoxSoakTemp->value(),(double)ui->spinBoxReflowTime->value(),(double)ui->spinBoxReflowTemp->value());
+
+  profile.setBase(ui->spinBoxBase->value());
+  profile.setTau(ui->spinBoxTau->value());
 
   updateProfileParameters();
 }

@@ -1,5 +1,7 @@
 #include "profile.h"
 
+const double EulerConstant = exp(1.0);
+
 Profile::Profile() {
 
   x = QVector<double> (301);
@@ -30,13 +32,17 @@ void Profile::createProfile() {
   preHeatRamp   = 1.78;
   preHeatCurve  = 5;
 
-  // new preheat curve
-  for(int i=1; i<=preHeatTime;i++) {
-    y[i]= pow((double)i,1.0/5.0) + startTemp;
+  //  tau  = 7.77;
+  //  base = 21;
+
+  // new preheat curve : Exponential Decay Toward a Limiting Value  y = 5 − 7 e − t / 6
+  for(int i=0; i<=preHeatTime;i++) {
+
+    y[i]= (preHeatTarget) - base * pow(EulerConstant,(double)-i/tau) ;
   }
 
   //Set starting temperature
-  y[0] = startTemp;
+  // y[0] = startTemp;
 
   // pre heat
   // for(int i=1; i<=preHeatTime;i++) {
@@ -72,6 +78,9 @@ void Profile::setReflowTemp(double ReflowTemp) { reflowTemp = ReflowTemp; /*upda
 
 void Profile::setPreHeatTarget(double PreHeatTarget) { preHeatTarget = PreHeatTarget; /*updateParameters();*/ }
 void Profile::setPreHeatRamp(double PreHeatRamp) { preHeatRamp = PreHeatRamp; /*updateParameters();*/ }
+
+void Profile::setBase(double Base) { base = Base; /*updateParameters();*/ }
+void Profile::setTau(double Tau) { tau = Tau; /*updateParameters();*/ }
 
 void Profile::updateParameters(double PreHeatTime, double PreHeatTemp, double SoakTime,double SoakTemp, double ReflowTime, double ReflowTemp) {
 
