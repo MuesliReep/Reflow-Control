@@ -56,6 +56,15 @@ void MainWindow::setupPlot() {
   bracket->right->setCoords(180, 217);
   bracket->setLength(13);
 
+  textLabel = new QCPItemText(temperaturePlot);
+  temperaturePlot->addItem(textLabel);
+  textLabel->setPositionAlignment(Qt::AlignTop|Qt::AlignHCenter);
+  textLabel->position->setType(QCPItemPosition::ptAxisRectRatio);
+  textLabel->position->setCoords(0.5, 0); // place position at center/top of axis rect
+  textLabel->setText("Delta");
+  textLabel->setFont(QFont(font().family(), 16)); // make font a bit larger
+  textLabel->setPen(QPen(Qt::black)); // show black border around text
+
   temperaturePlot->replot();
 
   //Set profile parameters
@@ -73,15 +82,21 @@ void MainWindow::updateProfileParameters()
   temperaturePlot->graph(0)->setData(profile.getX(),profile.getY());
 
   // Add arrow
-  QCPItemCurve *arrow = new QCPItemCurve(customPlot);
-  temperaturePlot->addItem(arrow);
-  arrow->start->setCoords(1, -1.1);
-  arrow->startDir->setCoords(-1, -1.3);
-  arrow->endDir->setCoords(-5, -0.3);
-  arrow->end->setCoords(-10, -0.2);
-  arrow->setHead(QCPLineEnding::esSpikeArrow);
+  // QCPItemCurve *arrow = new QCPItemCurve(temperaturePlot);
+  // temperaturePlot->addItem(arrow);
+  // arrow->start->setCoords(1, -1.1);
+  // arrow->startDir->setCoords(-1, -1.3);
+  // arrow->endDir->setCoords(-5, -0.3);
+  // arrow->end->setCoords(-10, -0.2);
+  // arrow->setHead(QCPLineEnding::esSpikeArrow);
 
-  // Add arrow label
+  // update arrow label
+
+  // update text label
+  double maxRamp = profile.findMaxRamp(0,90);
+  char buffer [50];
+  sprintf(buffer, "Ramp: %1.1f C/Sec",maxRamp);
+  textLabel->setText(buffer);
 
   temperaturePlot->replot();
 }

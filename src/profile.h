@@ -14,6 +14,7 @@ class Profile
 
 
 public:
+
   Profile();
   ~Profile();
   QVector<double> getX();
@@ -37,11 +38,9 @@ public:
   void setBase(double Base);
   void setTau(double Tau);
 
-  double Profile::findMaxRamp(int start, int end);
+  double findMaxRamp(int start, int end);
 
 private:
-
-
 
   QVector<double> x;
   QVector<double> y;

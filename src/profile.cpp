@@ -73,6 +73,8 @@ double Profile::findMaxRamp(int start, int end) {
     if(y[i]-y[i-1] > maxValue)
       maxValue = y[i]-y[i-1];
   }
+
+  return maxValue;
 }
 
 // Getters & Setters

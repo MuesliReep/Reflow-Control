@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "QCustomPlot.h"
 
+
 #include "profile.h"
 
 namespace Ui {
@@ -22,6 +23,7 @@ private:
     Ui::MainWindow *ui;
     QCustomPlot *temperaturePlot;
     Profile profile;
+    QCPItemText *textLabel;
 
     void setupPlot();
     void updateProfileParameters();
