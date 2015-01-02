@@ -31,12 +31,13 @@ public:
   void setSoakTemp(double soakTemp);
   void setReflowTemp(double ReflowTemp);
 
-
   void setPreHeatTarget(double PreHeatTarget);
   void setPreHeatRamp(double PreHeatRamp);
 
   void setBase(double Base);
   void setTau(double Tau);
+
+  double getPreHeatTemp();
 
   double findMaxRamp(int start, int end);
 

@@ -21,9 +21,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QCustomPlot *temperaturePlot;
     Profile profile;
+
+    QCustomPlot *temperaturePlot;
     QCPItemText *textLabel;
+    QCPItemCurve *startArrow;
+    QCPItemCurve *endArrow;
+    QCPItemBracket *stageBracket;
 
     void setupPlot();
     void updateProfileParameters();

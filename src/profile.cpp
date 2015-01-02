@@ -97,6 +97,8 @@ void Profile::setPreHeatRamp(double PreHeatRamp) { preHeatRamp = PreHeatRamp; /*
 void Profile::setBase(double Base) { base = Base; /*updateParameters();*/ }
 void Profile::setTau(double Tau) { tau = Tau; /*updateParameters();*/ }
 
+double Profile::getPreHeatTemp() { return preHeatTemp; }
+
 void Profile::updateParameters(double PreHeatTime, double PreHeatTemp, double SoakTime,double SoakTemp, double ReflowTime, double ReflowTemp) {
 
   preHeatTime = PreHeatTime;
@@ -106,7 +108,7 @@ void Profile::updateParameters(double PreHeatTime, double PreHeatTemp, double So
   reflowTime  = ReflowTime;
   reflowTemp  = ReflowTemp;
 
-  // preHeatTarget = PreHeatTarget;
+  // preHeatTarget = PreHeatTarget
   // preHeatRamp   = PreHeatRamp;
 
   updateParameters();

@@ -50,11 +50,11 @@ void MainWindow::setupPlot() {
   temperaturePlot->xAxis->setRange(0, 300);
   temperaturePlot->yAxis->setRange(0, 300);
 
-  QCPItemBracket *bracket = new QCPItemBracket(temperaturePlot);
-  temperaturePlot->addItem(bracket);
-  bracket->left->setCoords(90, 217);
-  bracket->right->setCoords(180, 217);
-  bracket->setLength(13);
+  stageBracket = new QCPItemBracket(temperaturePlot);
+  temperaturePlot->addItem(stageBracket);
+  stageBracket->left->setCoords(90, 217);
+  stageBracket->right->setCoords(180, 217);
+  stageBracket->setLength(13);
 
   textLabel = new QCPItemText(temperaturePlot);
   temperaturePlot->addItem(textLabel);
@@ -64,6 +64,15 @@ void MainWindow::setupPlot() {
   textLabel->setText("Delta");
   textLabel->setFont(QFont(font().family(), 16)); // make font a bit larger
   textLabel->setPen(QPen(Qt::black)); // show black border around text
+
+  // Add arrow
+  startArrow = new QCPItemCurve(temperaturePlot);
+  temperaturePlot->addItem(startArrow);
+  startArrow->setHead(QCPLineEnding::esSpikeArrow);
+
+  endArrow = new QCPItemCurve(temperaturePlot);
+  temperaturePlot->addItem(endArrow);
+  endArrow->setHead(QCPLineEnding::esSpikeArrow);
 
   temperaturePlot->replot();
 
@@ -81,16 +90,22 @@ void MainWindow::updateProfileParameters()
   profile.updateParameters();
   temperaturePlot->graph(0)->setData(profile.getX(),profile.getY());
 
-  // Add arrow
-  // QCPItemCurve *arrow = new QCPItemCurve(temperaturePlot);
-  // temperaturePlot->addItem(arrow);
-  // arrow->start->setCoords(1, -1.1);
-  // arrow->startDir->setCoords(-1, -1.3);
-  // arrow->endDir->setCoords(-5, -0.3);
-  // arrow->end->setCoords(-10, -0.2);
-  // arrow->setHead(QCPLineEnding::esSpikeArrow);
+  // update heating stage bracket
+  stageBracket->left->setCoords(0, profile.getY()[90]+10);
+  stageBracket->right->setCoords(90, profile.getY()[90]+10);
+  stageBracket->setLength(13);
 
-  // update arrow label
+  // update starting arrow
+  startArrow->start->setCoords(20, 20);
+  startArrow->startDir->setCoords(15, 20);
+  startArrow->endDir->setCoords(10, profile.getY()[0]);
+  startArrow->end->setCoords(5, profile.getY()[0]);
+
+  // update end arrow
+  endArrow->start->setCoords(120, 100);
+  endArrow->startDir->setCoords(110, 100);
+  endArrow->endDir->setCoords(90, profile.getY()[90]);
+  endArrow->end->setCoords(90, profile.getY()[90]);
 
   // update text label
   double maxRamp = profile.findMaxRamp(0,90);
