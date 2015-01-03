@@ -24,7 +24,9 @@ private:
     Profile profile;
 
     QCustomPlot *temperaturePlot;
-    QCPItemText *textLabel;
+    QCPItemText *labelMaxRamp;
+    QCPItemText *labelStartTemp;
+    QCPItemText *labelEndTemp;
     QCPItemCurve *startArrow;
     QCPItemCurve *endArrow;
     QCPItemBracket *stageBracket;
@@ -41,15 +43,10 @@ private slots:
     void slotUpdateReflowTemp(int value) { profile.setReflowTemp((double)value); updateProfileParameters();}
     void slotUpdateReflowTime(int value) { profile.setReflowTime((double)value); updateProfileParameters();}
 
-    void slotUpdateBase(double value) { profile.setBase(value); updateProfileParameters();}
-    void slotUpdateTau(double value) { profile.setTau(value); updateProfileParameters();}
+    void slotUpdateBase(double value) { profile.setPreHeatBase(value); updateProfileParameters();}
+    void slotUpdateTau(double value) { profile.setPreHeatTau(value); updateProfileParameters();}
+    void slotUpdateLimit(double value) { profile.setPreHeatLimit(value); updateProfileParameters();}
 
-    // void slotUpdatePreHeatTime(int value) { profile.setPreHeatTime((double)value); }
-    // void slotUpdatePreHeatTemp(int value) { profile.setPreHeatTemp((double)value); }
-    // void slotUpdateSoakTime(int value) { profile.setSoakTime((double)value); }
-    // void slotUpdateSoakTemp(int value) { profile.setSoakTemp((double)value); }
-    // void slotUpdateReflowTemp(int value) { profile.setReflowTemp((double)value); }
-    // void slotUpdateReflowTime(int value) { profile.setReflowTime((double)value); }
 };
 
 #endif // MAINWINDOW_H

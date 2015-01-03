@@ -17,8 +17,10 @@ public:
 
   Profile();
   ~Profile();
+
   QVector<double> getX();
   QVector<double> getY();
+
   void updateParameters();
   void updateParameters(double PreHeatTime, double PreHeatTemp, double SoakTime,double SoakTemp, double ReflowTime, double ReflowTemp);
 
@@ -34,8 +36,13 @@ public:
   void setPreHeatTarget(double PreHeatTarget);
   void setPreHeatRamp(double PreHeatRamp);
 
-  void setBase(double Base);
-  void setTau(double Tau);
+  void setPreHeatBase(double PreHeatBase);
+  void setPreHeatTau(double PreHeatTau);
+  void setPreHeatLimit(double PreHeatLimit);
+
+  void setSoakBase(double SoakBase);
+  void setSoakTau(double SoakTau);
+  void setSoakLimit(double SoakLimit);
 
   double getPreHeatTemp();
 
@@ -60,8 +67,13 @@ private:
   double preHeatRamp;
   double preHeatCurve;
 
-  double base;
-  double tau;
+  double PreHeatLimit;
+  double PreHeatBase;
+  double PreHeatTau;
+
+  double SoakLimit;
+  double SoakBase;
+  double SoakTau;
 
   void createProfile();
 

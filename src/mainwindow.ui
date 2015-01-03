@@ -242,6 +242,29 @@
                     </property>
                   </widget>
                 </item>
+                <item>
+                  <widget class="QLabel" name="labelLimit">
+                    <property name="text">
+                      <string>Limit</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QDoubleSpinBox" name="spinBoxLimit">
+                    <property name="accelerated">
+                      <bool>true</bool>
+                    </property>
+                    <property name="maximum">
+                      <double>999</double>
+                    </property>
+                    <property name="value">
+                      <double>160</double>
+                    </property>
+                  </widget>
+                </item>
               </layout>
             </item>
           </layout>

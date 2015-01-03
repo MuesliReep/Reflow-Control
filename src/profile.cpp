@@ -15,12 +15,6 @@ Profile::~Profile() {
 
 void Profile::createProfile() {
 
-  for(int i=0; i<x.size(); i++) {
-    x[i] = i;
-    // y[i] = i;
-
-  }
-
   //TODO: Preheat max = +2.5C/sec cooldown max = -5C/sec
 
 
@@ -28,17 +22,14 @@ void Profile::createProfile() {
   // set target temp
   // then set ramp
   // remaining should be curved off
-  preHeatTarget = 160.0;
-  preHeatRamp   = 1.78;
-  preHeatCurve  = 5;
+  preHeatLimit = 160.0;
+  // preHeatRamp   = 1.78;
+  // preHeatCurve  = 5;
 
-  //  tau  = 7.77;
-  //  base = 21;
-
-  // new preheat curve : Exponential Decay Toward a Limiting Value  y = 5 − 7 e − t / 6
+  // new preheat curve : Exponential Decay Toward a Limiting Value  y = Limit − Base e ^(−i / Tau)
   for(int i=0; i<=preHeatTime;i++) {
 
-    y[i]= (preHeatTarget) - base * pow(EulerConstant,(double)-i/tau) ;
+    y[i]= (preHeatLimit) - preHeatBase * pow(EulerConstant,(double)-i/preHeatTau) ;
   }
 
   //Set starting temperature
@@ -62,16 +53,26 @@ void Profile::createProfile() {
   }
 }
 
-//Find the max ramp speed in degrees per second
+//Find the maximum ramp speed in degrees per second
 double Profile::findMaxRamp(int start, int end) {
 
-  // TODO: negative ramp
-
   double maxValue = 0;
+  bool positive   = true;
+
+  // Find if the ramp is positive or negative
+  if(y[start]-y[start-1] > maxValue)
 
   for(int i=start+1;i<=end;i++) {
-    if(y[i]-y[i-1] > maxValue)
-      maxValue = y[i]-y[i-1];
+    switch(positive) {
+      case true:
+        if(y[i]-y[i-1] > maxValue)
+          maxValue = y[i]-y[i-1];
+        break;
+      case false:
+        if(y[i]-y[i-1] < maxValue)
+          maxValue = y[i]-y[i-1];
+        break;
+    }
   }
 
   return maxValue;
@@ -82,22 +83,27 @@ double Profile::findMaxRamp(int start, int end) {
 QVector<double> Profile::getX() { return x; }
 QVector<double> Profile::getY() { return y; }
 
-void Profile::setPreHeatTime(double PreHeatTime) { preHeatTime = PreHeatTime; /*updateParameters();*/ }
-void Profile::setSoakTime(double SoakTime) { soakTime = SoakTime; /*updateParameters();*/ }
-void Profile::setReflowTime(double ReflowTime) { reflowTime = ReflowTime; /*updateParameters();*/ }
-
-void Profile::setStartTemp(double StartTemp) { startTemp = StartTemp; /*updateParameters();*/ }
-void Profile::setPreHeatTemp(double PreHeatTemp) { preHeatTemp = PreHeatTemp; /*updateParameters();*/ }
-void Profile::setSoakTemp(double SoakTemp) { soakTemp = SoakTemp; /*updateParameters();*/ }
-void Profile::setReflowTemp(double ReflowTemp) { reflowTemp = ReflowTemp; /*updateParameters();*/ }
-
-void Profile::setPreHeatTarget(double PreHeatTarget) { preHeatTarget = PreHeatTarget; /*updateParameters();*/ }
-void Profile::setPreHeatRamp(double PreHeatRamp) { preHeatRamp = PreHeatRamp; /*updateParameters();*/ }
-
-void Profile::setBase(double Base) { base = Base; /*updateParameters();*/ }
-void Profile::setTau(double Tau) { tau = Tau; /*updateParameters();*/ }
-
 double Profile::getPreHeatTemp() { return preHeatTemp; }
+
+void Profile::setPreHeatTime(double PreHeatTime) { preHeatTime = PreHeatTime; }
+void Profile::setSoakTime(double SoakTime) { soakTime = SoakTime; }
+void Profile::setReflowTime(double ReflowTime) { reflowTime = ReflowTime; }
+
+void Profile::setStartTemp(double StartTemp) { startTemp = StartTemp; }
+void Profile::setPreHeatTemp(double PreHeatTemp) { preHeatTemp = PreHeatTemp; }
+void Profile::setSoakTemp(double SoakTemp) { soakTemp = SoakTemp; }
+void Profile::setReflowTemp(double ReflowTemp) { reflowTemp = ReflowTemp; }
+
+void Profile::setPreHeatTarget(double PreHeatTarget) { preHeatTarget = PreHeatTarget; }
+void Profile::setPreHeatRamp(double PreHeatRamp) { preHeatRamp = PreHeatRamp; }
+
+void Profile::setPreHeatBase(double PreHeatBase) { preHeatBase = PreHeatBase; }
+void Profile::setPreHeatTau(double PreHeatTau) { preHeatTau = PreHeatTau; }
+void Profile::setPreHeatLimit(double PreHeatLimit) { preHeatLimit = PreHeatLimit; }
+
+void Profile::setSoakBase(double SoakBase) { soakBase = SoakBase; }
+void Profile::setSoaktTau(double SoakTau) { soakTau = SoakTau; }
+void Profile::setSoakLimit(double SoakLimit) { soakLimit = SoakLimit; }
 
 void Profile::updateParameters(double PreHeatTime, double PreHeatTemp, double SoakTime,double SoakTemp, double ReflowTime, double ReflowTemp) {
 

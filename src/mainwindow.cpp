@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->spinBoxBase,SIGNAL(valueChanged(double)),this,SLOT(slotUpdateBase(double)));
     connect(ui->spinBoxTau,SIGNAL(valueChanged(double)),this,SLOT(slotUpdateTau(double)));
+    connect(ui->spinBoxLimit,SIGNAL(valueChanged(double)),this,SLOT(slotUpdateLimit(double)));
 }
 
 MainWindow::~MainWindow()
@@ -56,20 +57,28 @@ void MainWindow::setupPlot() {
   stageBracket->right->setCoords(180, 217);
   stageBracket->setLength(13);
 
-  textLabel = new QCPItemText(temperaturePlot);
-  temperaturePlot->addItem(textLabel);
-  textLabel->setPositionAlignment(Qt::AlignTop|Qt::AlignHCenter);
-  textLabel->position->setType(QCPItemPosition::ptAxisRectRatio);
-  textLabel->position->setCoords(0.5, 0); // place position at center/top of axis rect
-  textLabel->setText("Delta");
-  textLabel->setFont(QFont(font().family(), 16)); // make font a bit larger
-  textLabel->setPen(QPen(Qt::black)); // show black border around text
+  labelMaxRamp = new QCPItemText(temperaturePlot);
+  temperaturePlot->addItem(labelMaxRamp);
+  labelMaxRamp->setPositionAlignment(Qt::AlignTop|Qt::AlignHCenter);
+  labelMaxRamp->position->setType(QCPItemPosition::ptAxisRectRatio);
+  labelMaxRamp->position->setCoords(0.5, 0); // place position at center/top of axis rect
+  labelMaxRamp->setFont(QFont(font().family(), 16)); // make font a bit larger
+  labelMaxRamp->setPen(QPen(Qt::black)); // show black border around text
 
-  // Add arrow
+  labelStartTemp = new QCPItemText(temperaturePlot);
+  temperaturePlot->addItem(labelStartTemp);
+  labelStartTemp->setFont(QFont(font().family(), 16));
+
+  labelEndTemp = new QCPItemText(temperaturePlot);
+  temperaturePlot->addItem(labelEndTemp);
+  labelEndTemp->setFont(QFont(font().family(), 16));
+
+  // Add start temperature arrow
   startArrow = new QCPItemCurve(temperaturePlot);
   temperaturePlot->addItem(startArrow);
   startArrow->setHead(QCPLineEnding::esSpikeArrow);
 
+  // Add end temperature arrow
   endArrow = new QCPItemCurve(temperaturePlot);
   temperaturePlot->addItem(endArrow);
   endArrow->setHead(QCPLineEnding::esSpikeArrow);
@@ -79,8 +88,8 @@ void MainWindow::setupPlot() {
   //Set profile parameters
   profile.updateParameters((double)ui->spinBoxPreHeatTime->value(),(double)ui->spinBoxPreHeatTemp->value(),(double)ui->spinBoxSoakTime->value(),(double)ui->spinBoxSoakTemp->value(),(double)ui->spinBoxReflowTime->value(),(double)ui->spinBoxReflowTemp->value());
 
-  profile.setBase(ui->spinBoxBase->value());
-  profile.setTau(ui->spinBoxTau->value());
+  profile.setPreHeatBase(ui->spinBoxBase->value());
+  profile.setPreHeatTau(ui->spinBoxTau->value());
 
   updateProfileParameters();
 }
@@ -107,11 +116,23 @@ void MainWindow::updateProfileParameters()
   endArrow->endDir->setCoords(90, profile.getY()[90]);
   endArrow->end->setCoords(90, profile.getY()[90]);
 
-  // update text label
-  double maxRamp = profile.findMaxRamp(0,90);
+  // Update plot labels
   char buffer [50];
+
+  // update max ramp text label
+  double maxRamp = profile.findMaxRamp(0,90);
   sprintf(buffer, "Ramp: %1.1f C/Sec",maxRamp);
-  textLabel->setText(buffer);
+  labelMaxRamp->setText(buffer);
+
+  // update start temperature label
+  sprintf(buffer, "Ramp: %1.1f C",profile.getY()[90]);
+  labelStartTemp->setText(buffer);
+
+  // update end temperature label
+  sprintf(buffer, "%1.1f C",profile.getY()[0]);
+  labelEndTemp->setText(buffer);
+
+  // TODO: set X & Y plot ranges to profile values
 
   temperaturePlot->replot();
 }
