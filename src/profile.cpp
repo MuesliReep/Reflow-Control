@@ -60,7 +60,7 @@ double Profile::findMaxRamp(int start, int end) {
   bool positive   = true;
 
   // Find if the ramp is positive or negative
-  if(y[start]-y[start-1] > maxValue)
+  if(y[start+1]-y[start] > maxValue)
 
   for(int i=start+1;i<=end;i++) {
     switch(positive) {
@@ -102,7 +102,7 @@ void Profile::setPreHeatTau(double PreHeatTau) { preHeatTau = PreHeatTau; }
 void Profile::setPreHeatLimit(double PreHeatLimit) { preHeatLimit = PreHeatLimit; }
 
 void Profile::setSoakBase(double SoakBase) { soakBase = SoakBase; }
-void Profile::setSoaktTau(double SoakTau) { soakTau = SoakTau; }
+void Profile::setSoakTau(double SoakTau) { soakTau = SoakTau; }
 void Profile::setSoakLimit(double SoakLimit) { soakLimit = SoakLimit; }
 
 void Profile::updateParameters(double PreHeatTime, double PreHeatTemp, double SoakTime,double SoakTemp, double ReflowTime, double ReflowTemp) {

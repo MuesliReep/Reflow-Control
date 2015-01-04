@@ -67,13 +67,13 @@ private:
   double preHeatRamp;
   double preHeatCurve;
 
-  double PreHeatLimit;
-  double PreHeatBase;
-  double PreHeatTau;
+  double preHeatLimit;
+  double preHeatBase;
+  double preHeatTau;
 
-  double SoakLimit;
-  double SoakBase;
-  double SoakTau;
+  double soakLimit;
+  double soakBase;
+  double soakTau;
 
   void createProfile();
 
