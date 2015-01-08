@@ -6,6 +6,12 @@
 #include <cmath>
 
 #include <QVector>
+#include <QFile>
+#include <QString>
+#include <QTextStream>
+
+#include <QJsonDocument>
+#include <QJsonObject>
 
 using namespace std;
 
@@ -17,9 +23,13 @@ public:
 
   Profile();
   ~Profile();
+  Profile(bool fromFile);
 
   QVector<double> getX();
   QVector<double> getY();
+
+  void saveToFile();
+  bool loadFromFile();
 
   void updateParameters();
   void updateParameters(double PreHeatTime, double PreHeatTemp, double SoakTime,double SoakTemp, double ReflowTime, double ReflowTemp);

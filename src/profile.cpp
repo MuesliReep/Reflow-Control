@@ -3,6 +3,10 @@
 const double EulerConstant = exp(1.0);
 
 Profile::Profile() {
+  Profile(false);
+}
+
+Profile::Profile(bool fromFile) {
 
   x = QVector<double> (301);
   y = QVector<double> (301);
@@ -76,6 +80,50 @@ double Profile::findMaxRamp(int start, int end) {
   }
 
   return maxValue;
+}
+
+// Profile saving & loading functions
+
+void Profile::saveToFile() {
+
+  QFile *file = new QFile("C:/Dummy/config.txt");
+  if(file->open(QFile::WriteOnly))
+  {
+    char buffer[50];
+    // TODO: fill buffer with valid JSON
+
+    file->write(buffer);
+    file->flush();
+    file->close();
+  }
+
+  delete file;
+}
+
+bool Profile::loadFromFile() {
+
+  QFile *file = new QFile("C:/Dummy/profile.txt");
+  bool result = false;
+
+  // Check if profile file exists else return
+  if( !file->exists() ) {
+    qDebug() << "Profile file does not exist";
+    return result;
+  }
+
+  // Read the profile values from file
+  QString line;
+  QTextStream in(file);
+  while (!in.atEnd()) {
+    line = in.readLine(); // TODO: append to line not overwrite
+  }
+
+  delete file;
+
+  // Convert QString to JSON object
+  // TODO: Create JSON object from QString
+
+  return result;
 }
 
 // Getters & Setters
